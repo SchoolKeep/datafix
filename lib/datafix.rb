@@ -6,16 +6,31 @@ class Datafix
   class << self
     DIRECTIONS = %w[up down]
 
+    def disable_wrapping_transaction!
+      @with_wrapping_transaction = false
+    end
+
     def migrate(direction)
       raise ArgumentError unless DIRECTIONS.include?(direction)
 
-      ActiveRecord::Base.transaction do
-        send(direction.to_sym)
-        log_run(direction)
+      if with_wrapping_transaction?
+        ActiveRecord::Base.transaction { run(direction) }
+      else
+        run(direction)
       end
     end
 
     private
+
+    def run(direction)
+      send(direction.to_sym)
+      log_run(direction)
+    end
+
+    def with_wrapping_transaction?
+      @with_wrapping_transaction = true if @with_wrapping_transaction.nil?
+      @with_wrapping_transaction
+    end
 
     def log_run(direction)
       name = self.name.camelize.split('::').tap(&:shift).join('::')
