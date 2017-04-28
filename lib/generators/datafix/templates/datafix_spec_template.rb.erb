@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 require Rails.root.join("db", "datafixes", "<%= "#{timestamp}_#{file_name}" %>")
 
 <%- if !defined?(RSpec::Version::STRING) || RSpec::Version::STRING.start_with?("1.") || RSpec::Version::STRING.start_with?("2.") -%>
