@@ -11,7 +11,7 @@ PG_SPEC = {
   :adapter  => 'postgresql',
   :host     => 'localhost',
   :database => 'datafix_test',
-  :username => ENV['USER'],
+  :username => 'schoolkeep',
   :encoding => 'utf8'
 }
 

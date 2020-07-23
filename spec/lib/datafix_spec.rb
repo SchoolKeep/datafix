@@ -66,4 +66,22 @@ describe Datafix do
       end
     end
   end
+
+  context "reporting" do
+    let(:statsd) { Datadog::Statsd.new }
+
+    it "sends event to DataDog" do
+      allow(::Datadog::Statsd).to receive(:new).and_return(statsd)
+
+      expect(statsd).
+        to receive(:event).
+        with("Running Datafix", "Datafixes::FixKittens", { tags: %w[datafix start] })
+
+      expect(statsd).
+        to receive(:event).
+        with("Running Datafix", "Datafixes::FixKittens", { tags: %w[datafix finished] })
+
+      Datafixes::FixKittens.migrate('up')
+    end
+  end
 end

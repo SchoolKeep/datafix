@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "activerecord"
   gem.add_dependency "railties"
   gem.add_dependency "pg"
+  gem.add_dependency "dogstatsd-ruby"
 
   gem.add_development_dependency "rspec", "~> 3.1"
   gem.add_development_dependency "database_cleaner"
