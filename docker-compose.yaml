@@ -1,0 +1,17 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DATABASE: datafix_test
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: schoolkeep
+  test:
+    image: datafix
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command:
+      - bundle
+      - exec
+      - rspec
