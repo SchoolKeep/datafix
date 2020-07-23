@@ -12,6 +12,6 @@ services:
       dockerfile: Dockerfile
       context: .
     command:
-      - bundle
-      - exec
-      - rspec
+      - bash
+      - -c
+      - "sleep 5 && bundle exec rspec"
