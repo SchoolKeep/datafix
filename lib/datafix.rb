@@ -1,8 +1,11 @@
 require "datafixes"
 require "datafix/version"
 require "datafix/railtie" if defined?(Rails)
+require "datafix/datadog"
 
 class Datafix
+  extend Reporting::Datadog
+
   class << self
     DIRECTIONS = %w[up down]
 
@@ -13,11 +16,13 @@ class Datafix
     def migrate(direction)
       raise ArgumentError unless DIRECTIONS.include?(direction)
 
+      dd_event_migration_start(datafix_name: name)
       if with_wrapping_transaction?
         ActiveRecord::Base.transaction { run(direction) }
       else
         run(direction)
       end
+      dd_event_migration_finished(datafix_name: name)
     end
 
     private

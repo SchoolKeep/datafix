@@ -9,9 +9,9 @@ require 'datafix'
 
 PG_SPEC = {
   :adapter  => 'postgresql',
-  :host     => 'localhost',
+  :host     => 'db',
   :database => 'datafix_test',
-  :username => ENV['USER'],
+  :username => 'schoolkeep',
   :encoding => 'utf8'
 }
 
