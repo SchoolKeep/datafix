@@ -18,7 +18,7 @@ class Datafix
 
       dd_event_migration_start(datafix_name: name)
       if with_wrapping_transaction?
-        ActiveRecord::Base.transaction { run(direction) }
+        base_record_class.transaction { run(direction) }
       else
         run(direction)
       end
@@ -49,7 +49,7 @@ class Datafix
     end
 
     def connection
-      @connection ||= ActiveRecord::Base.connection
+      @connection ||= base_record_class.connection
     end
 
     def execute(*args)
@@ -57,7 +57,11 @@ class Datafix
     end
 
     def table_exists?(table_name)
-      ActiveRecord::Base.connection.table_exists? table_name
+      base_record_class.connection.table_exists?(table_name)
+    end
+
+    def base_record_class
+      ActiveRecord::Base
     end
 
     def archive_table(table_name)
